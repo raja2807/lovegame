@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rajalakshmi Birthday Game ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI,sans-serif;
+  background:linear-gradient(135deg,#ff9a9e,#fecfef);
+  overflow:hidden;
+  text-align:center;
+  color:#333;
+}
+
+h1{ margin-top:20px; }
+
+#gameArea{
+  position:relative;
+  width:100%;
+  height:60vh;
+  overflow:hidden;
+}
+
+.heart{
+  position:absolute;
+  font-size:22px;
+  cursor:pointer;
+  user-select:none;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  from{top:-40px;}
+  to{top:100%;}
+}
+
+#score{
+  font-size:18px;
+  margin-top:10px;
+  line-height:1.6;
+  font-weight:bold;
+}
+
+#winBox{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.9);
+  color:white;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  padding:20px;
+}
+
+button{
+  padding:14px 22px;
+  border:none;
+  border-radius:12px;
+  font-size:18px;
+  background:#ff4e88;
+  color:white;
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎮 Love Mission ❤️🖤</h1>
+<p>Catch <b>4 ❤️ red</b> and <b>3 🖤 black</b> hearts to unlock surprise 😈💖</p>
+
+<div id="score">
+❤️ Red: 0 / 4<br>
+🖤 Black: 0 / 3<br>
+⭐ Total: 0 / 7
+</div>
+
+<div id="gameArea"></div>
+
+<div id="winBox">
+  <h2>🎂 Happy Birthday Chlm ❤️🖤</h2>
+  <p style="max-width:320px;line-height:1.6;font-size:17px">
+
+I don’t know if I am always keeping you happy… ❤️🖤<br><br>
+
+But I know I have hurt you many times and we have had many fights 😔🖤<br><br>
+
+No matter how many fights happen, I will always come back searching only for you, chlm ❤️<br><br>
+
+I love you so much and I will keep trying my best to make you happy every day  ❤️🖤<br><br>
+
+In the coming days, your life will be super and all your dreams will come true ✨❤️<br><br>
+
+I love you di Pattu 😘🫂❤️🖤<br><br>
+
+<strong>Happy Birthday chlm 🎂❤️🖤</strong><br><br>
+
+— Always yours, Durai 😎💻
+
+  </p>
+  <button onclick="location.reload()">Play Again 🖤</button>
+</div>
+
+<script>
+let redScore=0;
+let blackScore=0;
+
+let redTarget=4;
+let blackTarget=3;
+let totalTarget=7;
+
+let area=document.getElementById("gameArea");
+
+function updateScore(){
+  let total = redScore + blackScore;
+
+  document.getElementById("score").innerHTML =
+    `❤️ Red: ${redScore} / ${redTarget}<br>
+     🖤 Black: ${blackScore} / ${blackTarget}<br>
+     ⭐ Total: ${total} / ${totalTarget}`;
+
+  if(redScore>=redTarget && blackScore>=blackTarget){
+    document.getElementById("winBox").style.display="flex";
+  }
+}
+
+function createHeart(){
+  let heart=document.createElement("div");
+  heart.className="heart";
+
+  let isRed=Math.random()>0.5;
+  heart.innerHTML=isRed?"❤️":"🖤";
+  heart.dataset.type=isRed?"red":"black";
+
+  heart.style.left=Math.random()*90+"%";
+
+  let duration=(1.6+Math.random()*1.4);
+  heart.style.animationDuration=duration+"s";
+
+  let drift=(Math.random()*120-60);
+  heart.animate(
+    [{transform:"translateX(0px)"},{transform:`translateX(${drift}px)`}],
+    {duration:duration*1000,iterations:1,easing:"linear"}
+  );
+
+  heart.onclick=()=>{
+    if(heart.dataset.type==="red" && redScore<redTarget){
+      redScore++;
+    }
+    else if(heart.dataset.type==="black" && blackScore<blackTarget){
+      blackScore++;
+    }
+
+    heart.remove();
+    updateScore();
+  };
+
+  area.appendChild(heart);
+  setTimeout(()=>heart.remove(),3500);
+}
+
+setInterval(createHeart,450);
+</script>
+
+</body>
+</html>
